@@ -3,7 +3,7 @@ The robot that finds path to it's goal.
 
 ## Overview
 
-**PathFinder** is a robotics project aimed at designing and building a robot capable of autonomously solving mazes using intelligent search algorithms. Initiated by members of the [Mechatronics and Embedded System Lab (MESL)](#abbreviation), this project offers a valuable hands-on opportunity to integrate algorithm design, embedded systems, and robotics.
+**PathFinder** is a robotics project aimed at designing and building a robot capable of autonomously solving mazes using intelligent search algorithms. Initiated by members of the [MESL](#abbreviation), this project offers a valuable hands-on opportunity to integrate algorithm design, embedded systems, and robotics.
 
 Though maze-solving competitions are currently rare in domestic university contests, the landscape is evolving. In 2023, TechnoXian Bangladesh introduced a maze-solving segment, followed by events like [BDRO](#abbreviation), Makers Mania at [IUB](#abbreviation), and Techkriti Bangladesh Zonal by [IARC](#abbreviation). This project not only prepares us for such emerging opportunities but also deepens our understanding of graph algorithms in practical applications.
 

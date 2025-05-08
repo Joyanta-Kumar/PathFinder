@@ -94,10 +94,10 @@ Though maze-solving competitions are currently rare in domestic university conte
 ### Project Log
 Progress and notes are maintained in the /reports directory:
 
-- [Daily acknowledgements](reports\Daily-acknowledgements.md)
+- [Daily acknowledgements](reports/Daily-acknowledgements.md)
 - [Weekly meeting logs](reports/Weekly-meeting-logs.md)
-- [Testing observations](reports\Testing-bservations.md)
-- [Algorithm comparison data](reports\Algorithm-comparison-data.md)
+- [Testing observations](reports/Testing-bservations.md)
+- [Algorithm comparison data](reports/Algorithm-comparison-data.md)
 
 
 ### Abbreviation

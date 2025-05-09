@@ -48,11 +48,11 @@ Though maze-solving competitions are currently rare in domestic university conte
 
 | Task                                      | Start Date | End Date   |
 |-------------------------------------------|------------|------------|
-| Study graph algorithms                    | Day 1      | Day 3      |
-| Implement visual simulations              | Day 2      | Day 5      |
-| Finalize maze-solving algorithm           | Day 5      | Day 6      |
-| Hardware integration and testing          | Day 6      | Day 10     |
-| Performance tuning and final evaluation   | Day 10     | Day 12     |
+| Study graph algorithms                    | [Date]     | [Date]     |
+| Implement visual simulations              | [Date]     | [Date]     |
+| Finalize maze-solving algorithm           | [Date]     | [Date]     |
+| Hardware integration and testing          | [Date]     | [Date]     |
+| Performance tuning and final evaluation   | [Date]     | [Date]     |
 
 
 ## Hardware and Software Requirements

@@ -7,7 +7,7 @@ In Depth First Search (or DFS) for a graph, we traverse all adjacent vertices on
 Note : There can be multiple DFS traversals of a graph according to the order in which we pick adjacent vertices. Here we pick vertices as per the insertion order.
 
 
-1. Input: adj =  [[1, 2], [0, 2], [0, 1, 3, 4], [2], [2]]\
+1. Input: [[1, 2], [0, 2], [0, 1, 3, 4], [2], [2]]\
     Output: [0 1 2 3 4]  
       
     ![Undirected graph](https://media.geeksforgeeks.org/wp-content/uploads/20240809162859/Input_undirected_Graph.webp)

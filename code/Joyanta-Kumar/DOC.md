@@ -1,3 +1,4 @@
+For now, the main.py is just for test. I will change soon.
 Follow the bellow steps to run this program.
 
 1. Install python on your machine
@@ -13,3 +14,4 @@ Follow the bellow steps to run this program.
     ```ps1
     python ./code/Joyanta-Kumar/main.py
     ```
+

@@ -30,6 +30,13 @@ Though maze-solving competitions are currently rare in domestic university conte
 ### Phase 1: Software Simulation
 - Study different search algorithms.
 - Build a visualizer to simulate and compare performances.
+#### Searching algorithms
+1. [DFS](search-algorithms/DFS.md)
+2. [BFS](search-algorithms/DFS.md)
+3. [Flood Fill](search-algorithms/Flood-fill.md)
+4. [Dijkstra’s Algorithm](search-algorithms/Dijkstra.md)
+5. [A* (A-Star) Algorithm](search-algorithms/A-star.md)
+6. [Greedy Best-First Search](search-algorithms/GBFS.md)
 
 ### Phase 2: Hardware Development
 - Select optimal algorithm based on simulation results.
@@ -94,10 +101,10 @@ Though maze-solving competitions are currently rare in domestic university conte
 ### Project Log
 Progress and notes are maintained in the /reports directory:
 
-- [Daily acknowledgements](reports\Daily-acknowledgements.md)
+- [Daily acknowledgements](reports/Daily-acknowledgements.md)
 - [Weekly meeting logs](reports/Weekly-meeting-logs.md)
-- [Testing observations](reports\Testing-bservations.md)
-- [Algorithm comparison data](reports\Algorithm-comparison-data.md)
+- [Testing observations](reports/Testing-bservations.md)
+- [Algorithm comparison data](reports/Algorithm-comparison-data.md)
 
 
 ### Abbreviation
@@ -108,3 +115,5 @@ Progress and notes are maintained in the /reports directory:
 | BDRO    | Bangladesh Robot Olympiad                   |
 | IUB     | Independent University, Bangladesh          |
 | IARC    | International Autonomous Robotics Challenge |
+| BFS     | Breadth first search                        |
+| DFS     | Depth first search                        |

@@ -115,8 +115,6 @@ Progress and notes are maintained in the /reports directory:
 | BDRO    | Bangladesh Robot Olympiad                   |
 | IUB     | Independent University, Bangladesh          |
 | IARC    | International Autonomous Robotics Challenge |
-<<<<<<< HEAD
 | BFS     | Breadth first search                        |
-| DFS     | Depth first search                        |
-=======
->>>>>>> 636f932fdbc682935cab8d1b88a5b5dba8133e28
+| DFS     | Depth first search                          |
+

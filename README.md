@@ -49,6 +49,7 @@ Though maze-solving competitions are currently rare in domestic university conte
 | Task                                      | Start Date | End Date   |
 |-------------------------------------------|------------|------------|
 | Study graph algorithms                    | [Date]     | [Date]     |
+| Structure the graph with OOP              | [Date]     | [Date]     |
 | Implement visual simulations              | [Date]     | [Date]     |
 | Finalize maze-solving algorithm           | [Date]     | [Date]     |
 | Hardware integration and testing          | [Date]     | [Date]     |
@@ -66,6 +67,7 @@ Though maze-solving competitions are currently rare in domestic university conte
 - Rechargeable compact battery (sufficient capacity)
 
 ### Software
+- Java (to structure the maps)
 - Python 3.x
 - Pygame / matplotlib (for visualizer)
 - Arduino IDE or PlatformIO

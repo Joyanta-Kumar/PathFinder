@@ -1,13 +1,16 @@
 package primitive;
 
 public class Node {
-    int x;
-    int y;
+    private float x;
+    private float y;
 
-    public Node(int x, int y) {
+    public Node(float x, float y) {
         this.x = x;
         this.y = y;
     }
+
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
 
     public void show() {
         System.out.println("[" + this.x + ",\t" + this.y + "]");

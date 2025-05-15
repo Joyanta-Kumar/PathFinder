@@ -12,9 +12,12 @@ public class Edge {
     }
 
     public void show() {
-        System.out.print("[" + this.start.getX() + "," + this.start.getY() + "]");
-        System.out.print(" --- ");
-        System.out.println("[" + this.end.getX() + "," + this.end.getY() + "]");
+        System.out.println("{");
+        System.out.print("\t\t");
+        this.start.show();
+        System.out.print(",\n\t\t");
+        this.end.show();
+        System.out.print("\n\t}");
     }
 
     public float getLength() {

@@ -13,6 +13,6 @@ public class Node {
     public float getY() { return this.y; }
 
     public void show() {
-        System.out.println("[" + this.x + ",\t" + this.y + "]");
+        System.out.print("{" + this.x + ", " + this.y + "}");
     }
 }

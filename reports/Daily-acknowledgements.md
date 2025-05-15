@@ -19,3 +19,11 @@ DSA CT forced each of us to learn DFS & BFS, Stack & Queue.
 Next, OOP will force us to learn to use custom classes and package.
 
 ---
+
+May 15, 2025
+10:35 pm
+
+Deleted the python visualizer. I messed up.
+Improved structure in java.
+
+---

@@ -2,34 +2,79 @@ import env.colors as clr
 from classes.node import Node
 from classes.edge import Edge
 from random import choice
+from env.const import rows, cols
 
 class Graph:
     def __init__(self, nodes=[], edges=[]):
         self.nodes = nodes
         self.edges = edges
+        self.rows = rows
+        self.cols = cols
     
     def __str__(self):
         return f"NODES: {len(self.nodes)}\nEDGES: {len(self.edges)}"
 
-    def containsNode(self, node):
-        for n in self.nodes:
-            if node.equals(n):
-                return True
-        return False
+    def findNode(self, node):
+        for index in range(len(self.nodes)):
+            if node.equals(self.nodes[index]):
+                return index
+        return None
     
-    def containsEdge(self, edge):
-        for e in self.edges:
-            if edge.equals(e):
-                return True
-        return False
+    def findEdge(self, edge):
+        for index in range(len(self.edges)):
+            if edge.equals(self.edges[index]):
+                return index
+        return None
     
     def addNode(self, node):
-        if not self.containsNode(node):
+        if self.findNode(node) == None:
             self.nodes.append(node)
     
+    def removeNode(self, node):
+        index = self.findNode(node)
+        if index == None:
+            return
+        left = self.nodes[:index]
+        right = self.nodes[index+1:]
+        self.nodes = left+right
+        neighbors = self.getNeighbors(node)
+        if len(neighbors) != 0:
+            for neighbor in neighbors:
+                self.removeEdge(Edge(node, neighbor))
+
+    def getNeighbors(self, node):
+        neighbors = []
+        if node.row != 0:
+            neighbor = Node(node.row-1, node.col)
+            if self.findEdge(Edge(node, neighbor)) != None:
+                neighbors.append(neighbor)
+        if node.row != self.rows-1:
+            neighbor = Node(node.row+1, node.col)
+            if self.findEdge(Edge(node, neighbor)) != None:
+                neighbors.append(neighbor)
+        if node.col != 0:
+            neighbor = Node(node.row, node.col-1)
+            if self.findEdge(Edge(node, neighbor)) != None:
+                neighbors.append(neighbor)
+        if node.col != self.cols-1:
+            neighbor = Node(node.row, node.col+1)
+            if self.findEdge(Edge(node, neighbor)) != None:
+                neighbors.append(neighbor)
+        return neighbors
+    
     def addEdge(self, edge):
-        if not self.containsEdge(edge) and edge.start != edge.end:
+        if self.findEdge(edge) == None and edge.start != edge.end:
             self.edges.append(edge)
+
+    
+    def removeEdge(self, edge):
+        index = self.findEdge(edge)
+        if index == None:
+            return
+        left = self.edges[:index]
+        right = self.edges[index+1:]
+        self.edges = left+right
+        
     
     def draw(self):
         for edge in self.edges:
@@ -56,3 +101,4 @@ class Graph:
                 nextCell = choice(neighbors)
             elif len(stack) != 0:
                 nextCell = stack.pop()
+    

@@ -26,6 +26,8 @@ class Cell:
         x = size * self.col
         y = size * self.row
         rect(window, cellColor, (x+padding, y+padding, size-2*padding, size-2*padding), border)
+        if not wallColor:
+            return
         if self.walls["top"]:
             line(window, wallColor, (x, y), (x+size, y), 2) # top
         if self.walls["left"]:

@@ -23,7 +23,8 @@ perfectMaze = False
 mazeGenerated = False
 mazeScanned = False
 foundEnd = False
-graphGenerated = False
+graphTrimed = False
+
 
 pygame.init()
 run = True
@@ -58,7 +59,9 @@ while run:
                 cell.visited = False
     
     if mazeGenerated and not mazeScanned:
-        if currentCell != end:
+        if currentCell == end:
+            foundEnd = True
+        if not foundEnd:
             currentCell = nextCell
             currentCell.visited = True
             neighbors = maze.getNeighbors(currentCell, ignoreVisited=False, ignoreWalls=False)
@@ -75,16 +78,41 @@ while run:
                 nextCell = choice(neighbors)
             elif len(stack) != 0:
                 nextCell = stack.pop()
+        
+        elif foundEnd and not nextCell.visited:
+            previousCell = currentCell
+            currentCell = nextCell
+            currentCell.visited = True
+            neighbors = maze.getNeighbors(currentCell, ignoreVisited=True, ignoreWalls=False)
+            nnc = []
+            for cell in neighbors:
+                if not cell.equals(previousCell):
+                    nnc.append(cell)
+            n1 = Node(currentCell.row, currentCell.col)
+            graph.addNode(n1)
+            nc = maze.getNeighbors(currentCell, ignoreVisited=True)
+            for cell in nc:
+                if cell.visited:
+                    n2 = Node(cell.row, cell.col)
+                    graph.addEdge(Edge(n1, n2))
 
+            if len(nnc) != 0:
+                stack.append(currentCell)
+                nextCell = choice(nnc)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
         else:
             nextCell = None
             currentCell = None
             stack = []
             neighbors = []
             mazeScanned = True
-
-    if mazeScanned and not graphGenerated:
-        pass
+    if mazeScanned and not graphTrimed:
+        for node in graph.nodes:
+            n = graph.getNeighbors(node)
+            if len(n) == 1 and not (node.equals(start) or node.equals(end)):
+                graph.removeNode(node)
+    
 
     pygame.display.flip()
     window.fill(clr.bg)
@@ -109,4 +137,4 @@ while run:
 
 
 
-    clock.tick(60)
+    clock.tick(15 if mazeGenerated else 60)

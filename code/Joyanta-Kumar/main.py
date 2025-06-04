@@ -1,25 +1,29 @@
-import pygame
-from env.const import window, clock, rows, cols
-import env.colors as clr
 from classes.maze import Maze
+import pygame
+from env.const import window, clock
+import env.colors as clr
+from random import choice
 from classes.graph import Graph
-from classes.cell import Cell
 from classes.node import Node
 from classes.edge import Edge
 
 maze = Maze()
-# maze.generate()
-# maze.dump()
-maze.load()
 graph = Graph()
-graph.load(maze)
-sGraph = Graph()
+# maze.generate()
 
-sGraph.nodes = graph.nodes.copy()
-sGraph.edges = graph.edges.copy()
+start = maze.cells[0]
+end = maze.getCell(maze.rows//2, maze.cols//2)
 
-start = Cell(0, 0)
-end = Cell(rows//2, cols//2)
+nextCell = start
+currentCell = nextCell
+neighbors = []
+stack = []
+
+perfectMaze = False
+mazeGenerated = False
+mazeScanned = False
+foundEnd = False
+graphGenerated = False
 
 pygame.init()
 run = True
@@ -30,16 +34,79 @@ while run:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 run = False
+
+    if not mazeGenerated:
+        if maze.cellToVisit():
+            currentCell = nextCell
+            currentCell.visited = True
+            neighbors = maze.getNeighbors(currentCell, ignoreVisited=False, ignoreWalls=True)
+            if len(neighbors) != 0:
+                stack.append(currentCell)
+                nextCell = choice(neighbors)
+                if not perfectMaze and choice([True, False]):
+                    randomCell = choice(neighbors)
+                    maze.removeWall(currentCell, randomCell)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
+            maze.removeWall(currentCell, nextCell)
+        else:
+            mazeGenerated = True
+            currentCell = None
+            nextCell = start
+            stack = []
+            for cell in maze.cells:
+                cell.visited = False
     
+    if mazeGenerated and not mazeScanned:
+        if currentCell != end:
+            currentCell = nextCell
+            currentCell.visited = True
+            neighbors = maze.getNeighbors(currentCell, ignoreVisited=False, ignoreWalls=False)
+            n1 = Node(currentCell.row, currentCell.col)
+            graph.addNode(n1)
+            nc = maze.getNeighbors(currentCell, ignoreVisited=True)
+            for cell in nc:
+                if cell.visited:
+                    n2 = Node(cell.row, cell.col)
+                    graph.addEdge(Edge(n1, n2))
+
+            if len(neighbors) != 0:
+                stack.append(currentCell)
+                nextCell = choice(neighbors)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
+
+        else:
+            nextCell = None
+            currentCell = None
+            stack = []
+            neighbors = []
+            mazeScanned = True
+
+    if mazeScanned and not graphGenerated:
+        pass
+
     pygame.display.flip()
     window.fill(clr.bg)
+    
     maze.draw()
-    start.draw(clr.stack, None, border=2, padding=10)
-    end.draw(clr.end, None, border=2, padding=10)
-    sGraph.draw()
-    for node in sGraph.nodes:
-        if len(sGraph.getNeighbors(node)) == 1 and not (node.equals(start) or node.equals(end)):
-            node.draw("red", 10)
-            sGraph.removeNode(node)
-    clock.tick(30)
+    for cell in stack:
+        cell.draw(clr.stack, padding=35)
+    for cell in neighbors:
+        cell.draw(clr.neighbor, padding=35)
+    if currentCell:
+        currentCell.draw(clr.current)
+    if nextCell:
+        nextCell.draw(clr.neighbor, None, 0, 20)
+    
+    for edge in graph.edges:
+        edge.draw(clr.edge)
+    for node in graph.nodes:
+        node.draw(clr.node)
+    
+    start.draw(clr.start, None, 3, 10)
+    end.draw(clr.end, None, 3, 10)
 
+
+
+    clock.tick(60)

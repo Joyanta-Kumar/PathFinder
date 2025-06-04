@@ -7,14 +7,14 @@ class Maze:
     def __init__(self):
         self.rows = rows
         self.cols = cols
-        self.cells = []
+        self.cells = [Cell(row, col) for row in range(rows) for col in range(cols)]
     
     def __str__(self):
         return f"{self.rows},{self.cols}"
     
     def draw(self):
         for cell in self.cells:
-            cell.draw(clr.cell if cell.visited else clr.wall, clr.wall)
+            cell.draw(clr.cell if cell.visited else clr.bg, clr.wall)
 
     
     def cellToVisit(self):

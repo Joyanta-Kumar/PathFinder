@@ -1,17 +1,18 @@
 
-default = "#061811"
-visited = "#ff8800"
-current = "#d05539"
-neighbors = "#98b45c"
-stack = "#678553"
+# default = "#061811"
 
-start = "#154835"
-end = "#598A5D"
 
-cell = "#061811"
-wall = "#154835"
+
+# fg = "#40ECAA"
+
 
 edge = "#ff8800"
 node = "#87a34f"
-bg = "#061811"
-fg = "#40ECAA"
+end = "#154835"
+start = "#154835"
+stack = "#678553"
+neighbor = "#98b45c"
+cell = "#061811"
+wall = "#154835"
+current = "#d05539"
+bg = "#030C09"

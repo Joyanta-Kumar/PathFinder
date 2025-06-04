@@ -11,7 +11,7 @@ class Node:
     def __str__(self):
         return f"{self.row},{self.col}"
     
-    def draw(self, color=clr.default, radius=5):
+    def draw(self, color=clr.node, radius=5):
         circle(window, color, (self.col*size+size/2, self.row*size+size/2), radius)
     
     def equals(self, that):

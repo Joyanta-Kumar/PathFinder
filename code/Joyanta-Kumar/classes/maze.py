@@ -1,7 +1,11 @@
+from classes.edge import Edge
+from classes.graph import Graph
+from classes.node import Node
 from env.const import rows, cols
 import env.colors as clr
 from classes.cell import Cell
 from random import choice, randint
+from queue import Queue
 
 class Maze:
     def __init__(self):
@@ -14,8 +18,8 @@ class Maze:
     
     def draw(self):
         for cell in self.cells:
-            cell.draw(clr.cell if cell.visited else clr.bg, clr.wall)
-
+            if cell.visited:
+                cell.draw(clr.cell, clr.wall)
     
     def cellToVisit(self):
         count = 0
@@ -69,23 +73,27 @@ class Maze:
         self.cells = [Cell(row, col) for row in range(self.rows) for col in range(self.cols)]
         nextCell = choice(self.cells)
         currentCell = nextCell
-        stack = []
-        while self.cellToVisit() > 0:
-            self.removeWall(currentCell, nextCell)
+        queue = Queue()
+
+        while self.cellToVisit() != 0:
             currentCell = nextCell
             currentCell.visited = True
             neighbors = self.getNeighbors(currentCell, False, True)
-            # For ! perfect maze
-            if len(neighbors) > 1 and randint(0, 3) == 2:
-                rCell = choice(neighbors)
-                self.removeWall(currentCell, rCell)
 
             if len(neighbors) != 0:
-                stack.append(currentCell)
                 nextCell = choice(neighbors)
-            elif len(stack) != 0:
-                nextCell = stack.pop()
+                if len(neighbors) > 1:
+                    queue.put(currentCell)
+                    if not perfect and choice([False, True]):
+                        randomCell = choice(neighbors)
+                        self.removeWall(currentCell, randomCell)
+            elif not queue.empty():
+                nextCell = queue.get()
+            self.removeWall(currentCell, nextCell)
+
         for cell in self.cells:
+            cell.visited = False
+            # May be unnecessary
             if cell.row == 0:
                 cell.walls["top"] = True
             elif cell.row == self.rows-1:
@@ -94,7 +102,6 @@ class Maze:
                 cell.walls["left"] = True
             elif cell.col == self.cols-1:
                 cell.walls["right"] = True
-            cell.visited = False
     
     def dump(self, fileName="zFile"):
         zFile = open(f"./zFiles/{fileName}.txt", "w")
@@ -133,3 +140,54 @@ class Maze:
         for cell in self.cells:
             cell.visited = False
         return stack
+    
+    def scan(self, start, end):
+        nextCell = start
+        currentCell = nextCell
+        stack = []
+        graph = Graph()
+        foundEnd = False
+
+        while not foundEnd:
+            if currentCell.equals(end):
+                foundEnd = True
+            currentCell = nextCell
+            currentCell.visited = True
+            neighbors = self.getNeighbors(currentCell)
+            n1 = Node(currentCell.row, currentCell.col)
+            graph.addNode(n1)
+            nc = self.getNeighbors(currentCell, ignoreVisited=True)
+            for cell in nc:
+                if cell.visited:
+                    n2 = Node(cell.row, cell.col)
+                    graph.addEdge(Edge(n1, n2))
+
+            if len(neighbors) != 0:
+                stack.append(currentCell)
+                nextCell = choice(neighbors)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
+        
+        while foundEnd and not nextCell.visited:
+            previousCell = currentCell
+            currentCell = nextCell
+            currentCell.visited = True
+            neighbors = self.getNeighbors(currentCell, ignoreVisited=True, ignoreWalls=False)
+            nnc = []
+            for cell in neighbors:
+                if not cell.equals(previousCell):
+                    nnc.append(cell)
+            n1 = Node(currentCell.row, currentCell.col)
+            graph.addNode(n1)
+            nc = self.getNeighbors(currentCell, ignoreVisited=True)
+            for cell in nc:
+                if cell.visited:
+                    n2 = Node(cell.row, cell.col)
+                    graph.addEdge(Edge(n1, n2))
+
+            if len(nnc) != 0:
+                stack.append(currentCell)
+                nextCell = choice(nnc)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
+        return graph

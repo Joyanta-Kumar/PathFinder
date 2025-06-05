@@ -137,4 +137,4 @@ while run:
 
 
 
-    clock.tick(100)
+    clock.tick(10 if mazeGenerated else 60)

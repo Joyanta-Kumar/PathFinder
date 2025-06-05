@@ -1,1 +1,1 @@
-# Trust me. You don't want to look.
+# Don't follow Joyanta-Kumar.

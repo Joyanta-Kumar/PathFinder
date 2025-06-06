@@ -42,22 +42,25 @@ class Maze:
     
     def getNeighbors(self, cell, ignoreVisited=False, ignoreWalls=False):
         neighbors = []
-        if not cell.walls["left"] or ignoreWalls:
-            left = self.getCell(cell.row, cell.col-1)
-            if left and (not left.visited or ignoreVisited):
-                neighbors.append(left)
-        if not cell.walls["right"] or ignoreWalls:
-            right = self.getCell(cell.row, cell.col+1)
-            if right and (not right.visited or ignoreVisited):
-                neighbors.append(right)
-        if not cell.walls["top"] or ignoreWalls:
-            top = self.getCell(cell.row-1, cell.col)
-            if top and (not top.visited or ignoreVisited):
+        top = self.getCell(cell.row-1, cell.col)
+        bottom = self.getCell(cell.row+1, cell.col)
+        left = self.getCell(cell.row, cell.col-1)
+        right = self.getCell(cell.row, cell.col+1)
+
+        if top and (not top.visited or ignoreVisited):
+            if ignoreWalls or (not cell.walls["top"]):
                 neighbors.append(top)
-        if not cell.walls["bottom"] or ignoreWalls:
-            bottom = self.getCell(cell.row+1, cell.col)
-            if bottom and (not bottom.visited or ignoreVisited):
+        if left and (not left.visited or ignoreVisited):
+            if ignoreWalls or (not cell.walls["left"]):
+                neighbors.append(left)
+        if bottom and (not bottom.visited or ignoreVisited):
+            if ignoreWalls or (not cell.walls["bottom"]):
                 neighbors.append(bottom)
+        if right and (not right.visited or ignoreVisited):
+            if ignoreWalls or (not cell.walls["right"]):
+                neighbors.append(right)
+
+
         return neighbors
 
     def removeWall(self, cell, nextCell):
@@ -101,7 +104,7 @@ class Maze:
                 else:
                     queue.put(currentCell)
                     nextCell = choice(neighbors)
-                    if not self.perfect and choice([True, False, False]):
+                    if not self.perfect and choice([True, False]):
                         randomCell = choice(neighbors)
                         self.removeWall(currentCell, randomCell)
             elif not queue.empty():
@@ -109,70 +112,5 @@ class Maze:
             else:
                 return False
             self.removeWall(currentCell, nextCell)
+        self.reset(walls=False)
         return True
-    
-    def getDirection(self, current, target):
-        direction = {"top":False,"left":False,"bottom":False,"right":False}
-        text = ""
-        if target.row < current.row:
-            direction["top"] = True
-            text += "Top"
-        elif current.row < target.row:
-            direction["bottom"] = True
-            text += "Bottom"
-        if target.col < current.col:
-            direction["left"] = True
-            text += "Left"
-        elif current.col < target.col:
-            direction["right"] = True
-            text += "Right"
-        print("On Target" if text == "" else text)
-        if not direction["top"] and not direction["left"] and not direction["bottom"] and not direction["right"]:
-            return None
-        return direction
-
-    def chooseNeighbor(self, current, target):
-        neighbors = self.getNeighbors(current, ignoreVisited=False)
-        direction = self.getDirection(current, target)
-        choosenOne = None
-        if not direction:
-            return choosenOne
-
-        top = self.getCell(current.row-1, current.col)
-        left = self.getCell(current.row, current.col-1)
-        bottom = self.getCell(current.row+1, current.col)
-        right = self.getCell(current.row, current.col+1)
-
-        if top:
-            if not fn.cellInList(top, neighbors):
-                top = None
-        if left:
-            if not fn.cellInList(left, neighbors):
-                left = None
-        if right:
-            if not fn.cellInList(right, neighbors):
-                right = None
-        if bottom:
-            if not fn.cellInList(bottom, neighbors):
-                bottom = None
-
-
-        if direction["right"]:
-            if right:
-                choosenOne = right
-            elif top and direction["top"]:
-                choosenOne = top
-            elif bottom and direction["bottom"]:
-                choosenOne = bottom
-        elif direction["left"]:
-            if left:
-                choosenOne = left
-            if top and direction["top"]:
-                choosenOne = top
-            elif bottom and direction["bottom"]:
-                choosenOne = bottom
-        
-        if not choosenOne:
-            choosenOne = choice(neighbors)
-        
-        return choosenOne

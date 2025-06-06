@@ -3,6 +3,8 @@ from classes.node import Node
 from classes.edge import Edge
 from random import choice
 from env.const import rows, cols
+from math import sqrt
+import env.functions as fn
 
 class Graph:
     def __init__(self, nodes=[], edges=[]):
@@ -72,3 +74,39 @@ class Graph:
     def addEdge(self, edge):
         if  not edge.start.equals(edge.end) and not self.containsEdge(edge):
             self.edges.append(edge)
+    
+    def reset(self):
+        self.nodes = []
+        self.edges = []
+    
+    def load(self, maze, start, end):
+        self.reset()
+        nextCell = start
+        currentCell = nextCell
+        stack = []
+        while not currentCell.equals(end):
+            currentCell = nextCell
+            currentCell.visited = True
+            cellNeighbors = maze.getNeighbors(currentCell)
+            nodeNeighbors = maze.getNeighbors(currentCell, ignoreVisited=True)
+            nodeA = Node(currentCell.row, currentCell.col)
+            n = None
+            for neighbor in nodeNeighbors:
+                if sqrt(pow(end.row-neighbor.row, 2) + pow(end.col-neighbor.col, 2)) == 1:
+                    n = neighbor
+                nodeB = Node(neighbor.row, neighbor.col)
+                edge = Edge(nodeA, nodeB)
+                self.addNode(nodeB)
+                self.addEdge(edge)
+            self.addNode(nodeA)
+            if len(cellNeighbors) != 0:
+                if fn.cellInList(end, cellNeighbors):
+                    nextCell = end
+                elif n and not n.visited:
+                    nextCell = n
+                else:
+                    nextCell = choice(cellNeighbors)
+                maze.removeWall(currentCell, nextCell)
+                stack.append(currentCell)
+            elif len(stack) != 0:
+                nextCell = stack.pop()
